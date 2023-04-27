@@ -1,4 +1,4 @@
-#!/usr/bin/python3 
+#!/usr/bin/python3
 
 def read(filename):
     with open(filename, 'r') as file:
@@ -9,15 +9,11 @@ def read(filename):
     return v, f
 
 
-def write(filename, m):
+def write(filename, v, f):
     with open(filename, 'w') as file:
         file.write('OFF\n')
-        file.write(f'{m.number_of_vertices()} ' +
-                   f'{m.number_of_faces()} 0\n')
-        for v in m.vertices:
-            file.write(f'{v.data.x} {v.data.y} {v.data.z}\n')
-        for f in range(m.number_of_faces()):
-            i = m.half_edge(3*f).dst
-            j = m.half_edge(3*f+1).dst
-            k = m.half_edge(3*f+2).dst
-            file.write(f'3 {i} {j} {k}\n')
+        file.write(f'{len(v)} {len(f)} 0\n')
+        for vstring in v:
+            file.write(f'{vstring}\n')
+        for fstring in f:
+            file.write(f'{fstring}\n')
