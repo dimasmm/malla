@@ -1,5 +1,11 @@
 Simple Directed Edge Python implementation for triangle meshes
 
+# `directed_edge.py` classes
+TODO
+
+# `off.py` functions
+TODO
+
 Example:
 
 ```
@@ -19,7 +25,8 @@ class Vertex:
 v, f = off.read('model.off')
 
 # create a mesh
-m = de.mesh([Vertex(*P) for P in v], f)
+v = [Vertex(*P) for P in v]
+m = de.mesh(v, f)
 
 # write mesh to off file
 off.write('output-model.off', m)
