@@ -162,16 +162,16 @@ class mesh:
             if mate > -1:
                 yield self.face(mate)
 
-    def face_strings(self) -> Generator[str, None, None]:
+    def faces(self) -> Generator[Tuple[int, int, int], None, None]:
         for f in range(self.number_of_faces()):
-            i = m.half_edge(3*f).dst
-            j = m.half_edge(3*f+1).dst
-            k = m.half_edge(3*f+2).dst
-            yield f'3 {i} {j} {k}'
+            i = self.half_edge(3*f).dst
+            j = self.half_edge(3*f+1).dst
+            k = self.half_edge(3*f+2).dst
+            yield (i, j, k)
 
-    def vertex_strings(self) -> Generator[str, None, None]:
+    def vertices(self) -> Generator[any, None, None]:
         for v in self.vertices:
-            yield str(v.data)
+            yield v.data
 
     def __add_face(self, f: any) -> None:
         self.__put_half_edge(f[0], f[1])

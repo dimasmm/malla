@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-from malla import directed_edge as de
-from malla import off
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'malla'))
+import directed_edge as de
+import off
 from dataclasses import dataclass
 
 @dataclass
@@ -10,10 +12,7 @@ class Vertex:
     y: float
     z: float
 
-    def __str__(self):
-        return f'{x} {y} {z}'
-
-v, f = off.read('/home/dimas/programs-python/mesh/cubo.off')
+v, f = off.read('cubo.off')
 m = de.mesh([Vertex(*P) for P in v], f)
 
-off.write('cubo.off', m.vertex_strings(), m.face_strings())
+off.write('cubo-out.off', m)

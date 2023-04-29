@@ -9,11 +9,11 @@ def read(filename):
     return v, f
 
 
-def write(filename, v, f):
+def write(filename, m, print_vertex=lambda v: f'{v.x} {v.y} {v.z}'):
     with open(filename, 'w') as file:
         file.write('OFF\n')
-        file.write(f'{len(v)} {len(f)} 0\n')
-        for vstring in v:
-            file.write(f'{vstring}\n')
-        for fstring in f:
-            file.write(f'{fstring}\n')
+        file.write(f'{m.number_of_vertices()} {m.number_of_faces()} 0\n')
+        for v in m.vertices():
+            file.write(print_vertex(v) + '\n')
+        for f in m.faces():
+            file.write(f'3 {f[0]} {f[1]} {f[2]}\n')
