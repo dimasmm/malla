@@ -8,7 +8,7 @@ TODO
 
 # Example:
 
-```
+```python
 # import modules
 from malla import directed_edge as de
 from malla import off
