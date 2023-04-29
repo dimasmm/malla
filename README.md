@@ -1,9 +1,9 @@
 Simple Directed Edge Python implementation for triangle meshes
 
-# `directed_edge.py` classes
+# directed_edge module
 TODO
 
-# `off.py` functions
+# off module 
 TODO
 
 # Example:
