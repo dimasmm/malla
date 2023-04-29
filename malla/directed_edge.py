@@ -15,8 +15,7 @@ half_edge
 """
 
 from dataclasses import dataclass
-from typing import Generator
-
+from typing import Generator, Tuple
 @dataclass
 class vertex:
     """
@@ -81,12 +80,12 @@ class mesh:
     """
 
     def __init__(self, vertices, faces):
-        self.vertices = [ vertex(v) for v in vertices ]
+        self._vertices = [ vertex(v) for v in vertices ]
         self.half_edges = []
         self._half_edges_map = {}
         for f in faces:
             self.__add_face(f)
-        for i in range(len(self.vertices)):
+        for i in range(len(self._vertices)):
             self.__assert_vertex_half_edge(i)
         self._half_edges_map = None
 
@@ -109,13 +108,13 @@ class mesh:
         return int(he/3)
 
     def vertex(self, v: int) -> vertex:
-        return self.vertices[v]
+        return self._vertices[v]
 
     def half_edge(self, he: int) -> half_edge:
         return self.half_edges[he]
 
     def number_of_vertices(self) -> int:
-        return len(self.vertices)
+        return len(self._vertices)
 
     def number_of_faces(self) -> int:
         return int(len(self.half_edges)/3)
@@ -170,7 +169,7 @@ class mesh:
             yield (i, j, k)
 
     def vertices(self) -> Generator[any, None, None]:
-        for v in self.vertices:
+        for v in self._vertices:
             yield v.data
 
     def __add_face(self, f: any) -> None:
@@ -186,8 +185,8 @@ class mesh:
         h = len(self.half_edges)
         he = half_edge(vj)
         self.half_edges.append(he)
-        if self.vertices[vi].half_edge == -1:
-            self.vertices[vi].half_edge = h
+        if self._vertices[vi].half_edge == -1:
+            self._vertices[vi].half_edge = h
         self._half_edges_map[pair] = h
         other_pair = (vj, vi)
         if other_pair in self._half_edges_map:
@@ -200,7 +199,7 @@ class mesh:
             self.half_edges[he2].mate = he1
 
     def __assert_vertex_half_edge(self, v: int) -> None:
-        first = self.vertices[v].half_edge
+        first = self._vertices[v].half_edge
         if first != -1:
             mate  = self.half_edges[first].mate
             if mate != -1:
@@ -210,7 +209,7 @@ class mesh:
                     if mate != -1:
                         current = self.next(mate)
                     else:
-                        self.vertices[v].half_edge = current
+                        self._vertices[v].half_edge = current
                         current = first
         else:
             print("Warning : vetex %d is isolated." % v)
