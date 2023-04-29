@@ -1,3 +1,7 @@
+Simple Directed Edge Python implementation for triangle meshes
+
+Example:
+
 ```
 # import modules
 from malla import directed_edge as de
