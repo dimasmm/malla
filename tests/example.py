@@ -14,5 +14,10 @@ class Vertex:
 
 v, f = off.read('cubo.off')
 m = de.mesh([Vertex(*P) for P in v], f)
+for i in range(m.number_of_vertices()):
+    s = f'Vertex {i}:'
+    for p in m.vertex_faces(i):
+        s += f' {p}'
+    print(s)
 
-off.write('cubo-out.off', m)
+# off.write('cubo-out.off', m)

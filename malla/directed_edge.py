@@ -120,38 +120,25 @@ class mesh:
         return int(len(self.half_edges)/3)
 
     def vertex_neighbors(self, v: int) -> Generator[int, None, None]:
+        for he in self.vertex_halfedges():
+            yield self.half_edge(he).dst
+            h = he
+        if self.half_edge(self.prev(h)).mate == -1: #bordo
+            yield self.half_edge(self.next(h)).dst
+
+    def vertex_halfedges(self, v: int) -> Generator[int, None, None]:
         he = self.vertex(v).half_edge
         if he != -1:
-            v0 = self.half_edge(he).dst
-            yield v0
+            hn = he
             while True:
-                hn = self.half_edge(self.prev(he)).mate
-                if hn == -1:
-                    yield self.half_edge(self.next(he)).dst
+                yield hn
+                hn = self.half_edge(self.prev(hn)).mate
+                if hn in {-1, he}:
                     break
-                else:
-                    he = hn
-                vi = self.half_edge(he).dst
-                if vi == v0:
-                    break
-                else:
-                    yield vi
 
-    def vertex_neighboring_faces(self, v: int) -> Generator[int, None, None]:
-        hf = self.vertex(v).half_edge
-        if hf != -1:
-            he = hf
+    def vertex_faces(self, v: int) -> Generator[int, None, None]:
+        for he in self.vertex_halfedges():
             yield self.face(he)
-            while True:
-                hn = self.half_edge(self.prev(he)).mate
-                if hn == -1:
-                    break
-                else:
-                    he = hn
-                if he == hf:
-                    break
-                else:
-                    yield self.face(he)
 
     def face_neighbors(self, f: int) -> Generator[int, None, None]:
         hf = 3*f
