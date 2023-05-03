@@ -120,7 +120,7 @@ class mesh:
         return int(len(self.half_edges)/3)
 
     def vertex_neighbors(self, v: int) -> Generator[int, None, None]:
-        for he in self.vertex_halfedges():
+        for he in self.vertex_halfedges(v):
             yield self.half_edge(he).dst
             h = he
         if self.half_edge(self.prev(h)).mate == -1: #bordo
@@ -137,7 +137,7 @@ class mesh:
                     break
 
     def vertex_faces(self, v: int) -> Generator[int, None, None]:
-        for he in self.vertex_halfedges():
+        for he in self.vertex_halfedges(v):
             yield self.face(he)
 
     def face_neighbors(self, f: int) -> Generator[int, None, None]:
