@@ -120,10 +120,11 @@ class mesh:
         return int(len(self.half_edges)/3)
 
     def vertex_neighbors(self, v: int) -> Generator[int, None, None]:
+        h = -1
         for he in self.vertex_halfedges(v):
             yield self.half_edge(he).dst
             h = he
-        if self.half_edge(self.prev(h)).mate == -1: #bordo
+        if h > -1 and self.half_edge(self.prev(h)).mate == -1: #bordo
             yield self.half_edge(self.next(h)).dst
 
     def vertex_halfedges(self, v: int) -> Generator[int, None, None]:
@@ -200,4 +201,3 @@ class mesh:
                         current = first
         else:
             print("Warning : vetex %d is isolated." % v)
-
